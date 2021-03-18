@@ -1,9 +1,10 @@
 <script>
   import { onMount } from 'svelte'
+
   let primes = []
   const total = 100
 
-  function findPrimes (n, nums) {
+  function * findPrimes (n, nums) {
     
     
     nums[0].isPrime = false
@@ -12,12 +13,16 @@
       if (!nums[i].isPrime) continue
       const color = getRandomColor()
       for (let j = i * i; j < n; j += i) {
-        nums[j].isPrime = false
-        nums[j].color = color
+        yield setPrime(nums[j], color)
+        primes = nums.slice(2) // svelte reload array
       }
     }
+  }
 
-    return nums.splice(2)
+
+  function setPrime (target, color) {
+      target.isPrime = false
+      target.color = color
   }
 
   function getRandomColor() {
@@ -30,13 +35,18 @@
   }
 
   onMount(() => {
-    const nums = new Array(total)
+    primes = new Array(total)
       .fill('')
       .map(_ => ({
         isPrime: true,
         color: 'white'
       }))
-      primes = findPrimes(total, nums)
+      // findPrimes(total, primes)
+      const finder = findPrimes(total, primes)
+      const intervalId = window.setInterval(() => {
+        const { done } = finder.next()  
+        if (done) window.clearInterval(intervalId)
+      }, 50)
   })
 </script>
 
@@ -62,7 +72,7 @@
 Sieve of Eratosthenes Visualization
 
 <main>
-	{#each primes as prime, i}
+	{#each primes as prime, i (i)}
     <div class="num-block"
       style={`background-color: ${prime.color}`}
     >{i + 2}</div>
