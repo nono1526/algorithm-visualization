@@ -1,9 +1,10 @@
 <script>
   import { onMount } from 'svelte'
-
+  import { fly } from 'svelte/transition'
   let primes = []
-  const total = 100
-
+  let nowSettingNumber = null
+  const total = 200
+  let nowColor = ''
   function * findPrimes (n, nums) {
     
     
@@ -11,18 +12,19 @@
     nums[1].isPrime = false
     for (let i = 2; i * i < n; i++) {
       if (!nums[i].isPrime) continue
-      const color = getRandomColor()
+      nowColor = getRandomColor()
       for (let j = i * i; j < n; j += i) {
-        yield setPrime(nums[j], color)
+        yield setPrime(i, nums[j])
         primes = nums.slice(2) // svelte reload array
       }
     }
   }
 
 
-  function setPrime (target, color) {
+  function setPrime (i, target) {
       target.isPrime = false
-      target.color = color
+      target.color = nowColor
+      return i
   }
 
   function getRandomColor() {
@@ -39,42 +41,46 @@
       .fill('')
       .map(_ => ({
         isPrime: true,
-        color: 'white'
+        color: '#777'
       }))
       // findPrimes(total, primes)
       const finder = findPrimes(total, primes)
       const intervalId = window.setInterval(() => {
-        const { done } = finder.next()  
+        const { done, value } = finder.next()
+        nowSettingNumber = value
         if (done) window.clearInterval(intervalId)
       }, 50)
   })
 </script>
 
 <style>
+
   main {
     display: flex;
     flex-wrap: wrap;
-    width: 360px;
-
+    width: 100%;
   }
 
   .num-block {
-    width: 30px;
-    height: 30px;
-    border: 1px solid black;
-    margin: 2px;
+    height: 48px;
+    width: 10%;
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: 1s;
+    border: 4px solid rgb(241, 241, 241);
   }
-</style>
 
-Sieve of Eratosthenes Visualization
+</style>
 
 <main>
 	{#each primes as prime, i (i)}
     <div class="num-block"
-      style={`background-color: ${prime.color}`}
+      transition:fly
+      style="
+        background-color: {prime.color};
+        border-color: {nowSettingNumber === i + 2 ? nowColor : 'rgb(241, 241, 241)'};
+      "
     >{i + 2}</div>
   {/each}
 </main>
