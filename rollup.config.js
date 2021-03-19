@@ -9,7 +9,6 @@ const production = !process.env.ROLLUP_WATCH;
 
 function serve() {
 	let server;
-
 	function toExit() {
 		if (server) server.kill(0);
 	}
