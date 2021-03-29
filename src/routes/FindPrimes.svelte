@@ -56,12 +56,14 @@
 <style>
 
   main {
+    
     display: flex;
     flex-wrap: wrap;
     width: 100%;
   }
 
   .num-block {
+    color: white;
     height: 48px;
     width: 10%;
     display: flex;

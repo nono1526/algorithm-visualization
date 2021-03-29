@@ -2,7 +2,7 @@
 <script>
   import { Router, Link, Route } from "svelte-routing";
   import FindPrimes from "./routes/FindPrimes.svelte";
-  import InvertBinaryTree from './routes/InvertBinaryTree.svelte'
+  import InvertBinaryTree from './routes/InvertBinaryTree/index.svelte'
   export let url = "";
 </script>
 
