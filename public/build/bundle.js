@@ -2601,6 +2601,9 @@ var app = (function () {
         const f = t - 1.0;
         return f * f * f + 1.0;
     }
+    function quintOut(t) {
+        return --t * t * t * t * t + 1;
+    }
 
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation.
@@ -2983,8 +2986,20 @@ var app = (function () {
     }
 
     const [send, receive] = crossfade({
-    	duration: d => Math.sqrt(d * 3000),
-    	fallback: fade
+      duration: d => Math.sqrt(d * 3000),
+      fallback(node, params) {
+          const style = getComputedStyle(node);
+          const transform = style.transform === 'none' ? '' : style.transform;
+
+          return {
+              duration: 600,
+              easing: quintOut,
+              css: t => `
+              transform: ${transform} scale(${t});
+              opacity: ${t}
+          `
+          };
+      }
     });
 
     function flip(node, animation, params = {}) {
@@ -3532,9 +3547,9 @@ var app = (function () {
     			t3 = space();
     			create_component(node.$$.fragment);
     			attr_dev(input, "type", "text");
-    			add_location(input, file$1, 97, 1, 2049);
-    			add_location(button, file$1, 98, 1, 2093);
-    			add_location(main, file$1, 95, 0, 2028);
+    			add_location(input, file$1, 112, 1, 2494);
+    			add_location(button, file$1, 113, 1, 2538);
+    			add_location(main, file$1, 110, 0, 2473);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -3611,13 +3626,14 @@ var app = (function () {
     	});
 
     	let timer;
+    	let createTimer;
     	let leftKey;
     	let rightKey;
     	let treeArr = [1, 2, 3, 4, 5, 6, 7];
     	let inputTree = "1,2,3,4,5,6,7";
     	let tree = treeArr[0];
 
-    	function createTree(arr) {
+    	function* createTreeGenarator(arr) {
     		for (let i = 0; 2 * (i + 1) <= arr.length; i++) {
     			let node;
 
@@ -3626,6 +3642,7 @@ var app = (function () {
     			}
 
     			node = arr[i];
+    			yield arr[i];
     			let leftId = 2 * i + 1;
     			let rightId = 2 * (i + 1);
     			arr[leftId] = new TreeNode(arr[leftId]);
@@ -3652,10 +3669,37 @@ var app = (function () {
     		}
     	}
 
-    	function startInvertTree() {
+    	function createNewTree(arr) {
+    		return new Promise(resolve => {
+    				const step = createTreeGenarator(arr);
+    				const { value } = step.next();
+    				$$invalidate(1, tree = value); // first is binary tree head
+
+    				createTimer = window.setInterval(
+    					() => {
+    						const { done } = step.next();
+    						$$invalidate(1, tree = tree); // refresh tree
+
+    						if (done) {
+    							window.clearInterval(createTimer);
+    							resolve(tree);
+    						}
+    					},
+    					500
+    				);
+    			});
+    	}
+
+    	async function startInvertTree() {
     		if (timer) window.clearInterval(timer);
-    		const inputArr = inputTree.split(",");
-    		$$invalidate(1, tree = createTree(inputArr)[0]);
+    		if (createTimer) window.clearInterval(createTimer);
+
+    		const inputArr = inputTree.split(",").map(v => {
+    			v = v.trim();
+    			return v.trim() === "null" ? null : v;
+    		});
+
+    		$$invalidate(1, tree = await createNewTree(inputArr));
     		const swapper = invertTree(tree);
 
     		timer = window.setInterval(
@@ -3681,24 +3725,12 @@ var app = (function () {
     	}
 
     	onMount(() => {
-    		$$invalidate(1, tree = createTree(treeArr)[0]);
-    		const swapper = invertTree(tree);
+    		startInvertTree();
 
-    		const timer = window.setInterval(
-    			() => {
-    				const { done, value } = swapper.next();
-    				$$invalidate(1, tree);
-
-    				if (done) {
-    					leftKey = null;
-    					rightKey = null;
-    					window.clearInterval(timer);
-    				}
-    			},
-    			1500
-    		);
-
-    		return () => window.clearInterval(timer);
+    		return () => {
+    			window.clearInterval(timer);
+    			window.clearInterval(createTimer);
+    		};
     	});
 
     	const writable_props = [];
@@ -3722,19 +3754,22 @@ var app = (function () {
     		send,
     		receive,
     		timer,
+    		createTimer,
     		leftKey,
     		rightKey,
     		treeArr,
     		inputTree,
     		tree,
-    		createTree,
+    		createTreeGenarator,
     		invertTree,
+    		createNewTree,
     		startInvertTree,
     		swap
     	});
 
     	$$self.$inject_state = $$props => {
     		if ("timer" in $$props) timer = $$props.timer;
+    		if ("createTimer" in $$props) createTimer = $$props.createTimer;
     		if ("leftKey" in $$props) leftKey = $$props.leftKey;
     		if ("rightKey" in $$props) rightKey = $$props.rightKey;
     		if ("treeArr" in $$props) treeArr = $$props.treeArr;
