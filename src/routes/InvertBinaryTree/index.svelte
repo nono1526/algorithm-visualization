@@ -38,26 +38,24 @@
 		return arr
 	}
 	
-	function * reserveTree (tree) {
+	function * invertTree (tree) {
 		const stack = [tree]
 		while (stack.length > 0) {
 			const node = stack.pop()
 			if (node.left || node.right) {
+        stack.push(node.left, node.right)
 				leftKey = node.left.key
 				rightKey = node.right.key
 				yield(swap(node, tree))
-				stack.push(node.left, node.right)
 			}
 		}
-		tree = tree
 	}
 	
-	function startReserveTree () {
+	function startInvertTree () {
 		if (timer) window.clearInterval(timer)
 		const inputArr = inputTree.split(',')
 		tree = createTree(inputArr)[0]
-    console.log(tree)
-		const swapper = reserveTree(tree)
+		const swapper = invertTree(tree)
 		timer = window.setInterval(() => {
 			const {done} = swapper.next()
 			tree = tree
@@ -78,7 +76,7 @@
 	
 	onMount(() => {
 		tree = createTree(treeArr)[0]
-		const swapper = reserveTree(tree)
+		const swapper = invertTree(tree)
 		const timer = window.setInterval(() => {
 			const {done, value} = swapper.next()
 			tree = tree
@@ -98,7 +96,7 @@
 <main>
 	Input Tree:
 	<input type="text" bind:value={inputTree}>
-	<button on:click={startReserveTree}>
+	<button on:click={startInvertTree}>
 		start
 	</button>
 	<Node node={tree}/>
