@@ -3,7 +3,6 @@
   import Router from 'svelte-spa-router'
   import TheNav from './components/TheNav.svelte'
   import routes from './routes/index.js'
-  console.log(routes)
 </script>
 
 <TheNav></TheNav>

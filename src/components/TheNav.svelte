@@ -23,6 +23,7 @@ import { link } from 'svelte-spa-router'
 </style>
 
 <ul class="nav">
-  <li><a use:link={'/find-primes'}>Find Primes</a></li>
-  <li><a use:link={'/invert-binary-tree'}>Invert binary tree</a></li>
+  <li><a href="/find-primes" use:link={'/find-primes'}>Find Primes</a></li>
+  <li><a href="/invert-binary-tree" use:link={'/invert-binary-tree'}>Invert binary tree</a></li>
+  <li><a href="/sorting" use:link={'/sorting'}>sorting</a></li>
 </ul>
