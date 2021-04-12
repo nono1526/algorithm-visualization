@@ -3882,7 +3882,7 @@ var app = (function () {
     	return block;
     }
 
-    // (9:0) <Router url="{url}">
+    // (9:0) <Router url="{url}" basepath="/algorithm-visualization/public/">
     function create_default_slot(ctx) {
     	let nav;
     	let link0;
@@ -3962,8 +3962,8 @@ var app = (function () {
     			create_component(route1.$$.fragment);
     			t4 = space();
     			create_component(route2.$$.fragment);
-    			add_location(nav, file, 9, 2, 269);
-    			add_location(div, file, 14, 2, 423);
+    			add_location(nav, file, 9, 2, 313);
+    			add_location(div, file, 14, 2, 467);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, nav, anchor);
@@ -4040,7 +4040,7 @@ var app = (function () {
     		block,
     		id: create_default_slot.name,
     		type: "slot",
-    		source: "(9:0) <Router url=\\\"{url}\\\">",
+    		source: "(9:0) <Router url=\\\"{url}\\\" basepath=\\\"/algorithm-visualization/public/\\\">",
     		ctx
     	});
 
@@ -4054,6 +4054,7 @@ var app = (function () {
     	router = new Router({
     			props: {
     				url: /*url*/ ctx[0],
+    				basepath: "/algorithm-visualization/public/",
     				$$slots: { default: [create_default_slot] },
     				$$scope: { ctx }
     			},

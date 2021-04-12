@@ -6,7 +6,7 @@
   export let url = "";
 </script>
 
-<Router url="{url}">
+<Router url="{url}" basepath="/algorithm-visualization/public/">
   <nav>
     <Link to="/">Home</Link>
     <Link to="/find-primes">Find Primes</Link>
