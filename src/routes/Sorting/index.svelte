@@ -4,6 +4,7 @@ import Selection from './components/Selection.svelte'
 import Bubble from './components/Bubble.svelte'
 import Quick from './components/Quick.svelte'
 import Shell from './components/Shell.svelte'
+import Merge from './components/Merge.svelte'
 let nums = Array.from({ length: 25 })
   .map((_, i) => ({value: 10 + Math.random() * 140, key: i}))
 
@@ -21,3 +22,5 @@ Quick
 <Quick nums={getNums(nums)}></Quick>
 Shell
 <Shell nums={getNums(nums)}></Shell>
+Merge
+<Merge nums={getNums(nums)}></Merge>
