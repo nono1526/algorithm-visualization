@@ -1,7 +1,6 @@
 <script>
 import { onMount } from 'svelte'
-let nums = Array.from({ length: 25 })
-  .map((_, i) => ({value: 10 + Math.random() * 140, key: i}))
+export let nums = []
 let _j
 let _group = []
 function * shellSortGenerator (arrs) {

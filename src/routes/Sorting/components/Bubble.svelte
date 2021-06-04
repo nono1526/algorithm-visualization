@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte'
-  let nums = Array.from({ length: 25 }).map((_, i) => 10 + Math.random() * 140)
+  export let nums = []
   let _j
   onMount(() => {
     const genarator = bubbleSortGenarator(nums)
@@ -14,9 +14,9 @@
   
   function * bubbleSortGenarator () {
     for (let i = 0; i < nums.length; i++) {
-      for (let j = nums.length; j > i; j--) {
+      for (let j = nums.length - 1; j > i; j--) {
         yield setJ(j)
-        if (nums[j] < nums[j - 1]) {
+        if (nums[j].value < nums[j - 1].value) {
           swap(j, j - 1)
         }
       }
@@ -29,9 +29,9 @@
   }
 
   function swap (i, j) {
-    let temp = nums[i]
-      nums[i] = nums[j]
-      nums[j] = temp
+    let temp = nums[i].value
+      nums[i].value = nums[j].value
+      nums[j].value = temp
   
   }
   
@@ -49,11 +49,11 @@
     }
   </style>
   <div class="wrapper">
-    {#each nums as num, index (num)}
+    {#each nums as num, index (num.key)}
       <div
         class="row"
         style={`
-          width: ${num}px;
+          width: ${num.value}px;
           height: 5px;
           background-color: ${index === _j ? 'red' : 'white'} ;
         `}

@@ -1,6 +1,6 @@
 <script>
 import { onMount } from 'svelte'
-let nums = Array.from({ length: 25 }).map((_, i) => ({value: 10 + Math.random() * 140, key: i}))
+export let nums = []
 let _j
 let temp
 let key
@@ -8,8 +8,8 @@ onMount(() => {
   const genarator = insertionSortGenarator(nums)
 
   const timer = window.setInterval(() => {
-      const { done } = genarator.next()
-      if (done) window.clearInterval(timer)
+    const { done } = genarator.next()
+    if (done) window.clearInterval(timer)
   }, 100)
   return () => window.clearInterval(timer)
 })

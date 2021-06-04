@@ -3428,7 +3428,7 @@ var app = (function () {
         background-color: ${/*_j*/ ctx[1] === /*index*/ ctx[8] ? "red" : "white"};
       `);
 
-    			add_location(div, file$4, 52, 4, 1033);
+    			add_location(div, file$4, 52, 4, 953);
     			this.first = div;
     		},
     		m: function mount(target, anchor) {
@@ -3485,7 +3485,7 @@ var app = (function () {
     			}
 
     			attr_dev(div, "class", "wrapper svelte-1lml56d");
-    			add_location(div, file$4, 50, 0, 968);
+    			add_location(div, file$4, 50, 0, 888);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -3530,7 +3530,7 @@ var app = (function () {
     function instance$6($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots("Insertion", slots, []);
-    	let nums = Array.from({ length: 25 }).map((_, i) => ({ value: 10 + Math.random() * 140, key: i }));
+    	let { nums = [] } = $$props;
     	let _j;
     	let temp;
     	let key;
@@ -3572,11 +3572,15 @@ var app = (function () {
     		$$invalidate(0, nums[j].value = key, nums);
     	}
 
-    	const writable_props = [];
+    	const writable_props = ["nums"];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<Insertion> was created with unknown prop '${key}'`);
     	});
+
+    	$$self.$$set = $$props => {
+    		if ("nums" in $$props) $$invalidate(0, nums = $$props.nums);
+    	};
 
     	$$self.$capture_state = () => ({
     		onMount,
@@ -3605,7 +3609,7 @@ var app = (function () {
     class Insertion extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$6, create_fragment$6, safe_not_equal, {});
+    		init(this, options, instance$6, create_fragment$6, safe_not_equal, { nums: 0 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -3613,6 +3617,14 @@ var app = (function () {
     			options,
     			id: create_fragment$6.name
     		});
+    	}
+
+    	get nums() {
+    		throw new Error("<Insertion>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set nums(value) {
+    		throw new Error("<Insertion>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
 
@@ -3626,7 +3638,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (57:4) {#each nums as num, index (num)}
+    // (57:4) {#each nums as num, index (num.key)}
     function create_each_block$3(key_1, ctx) {
     	let div;
     	let div_style_value;
@@ -3639,12 +3651,12 @@ var app = (function () {
     			attr_dev(div, "class", "row svelte-rc0agl");
 
     			attr_dev(div, "style", div_style_value = `
-          width: ${/*num*/ ctx[5]}px;
+          width: ${/*num*/ ctx[5].value}px;
           height: 5px;
           background-color: ${/*index*/ ctx[7] === /*_j*/ ctx[1] ? "red" : "white"} ;
         `);
 
-    			add_location(div, file$3, 57, 6, 1179);
+    			add_location(div, file$3, 57, 6, 1168);
     			this.first = div;
     		},
     		m: function mount(target, anchor) {
@@ -3654,7 +3666,7 @@ var app = (function () {
     			ctx = new_ctx;
 
     			if (dirty & /*nums, _j*/ 3 && div_style_value !== (div_style_value = `
-          width: ${/*num*/ ctx[5]}px;
+          width: ${/*num*/ ctx[5].value}px;
           height: 5px;
           background-color: ${/*index*/ ctx[7] === /*_j*/ ctx[1] ? "red" : "white"} ;
         `)) {
@@ -3670,7 +3682,7 @@ var app = (function () {
     		block,
     		id: create_each_block$3.name,
     		type: "each",
-    		source: "(57:4) {#each nums as num, index (num)}",
+    		source: "(57:4) {#each nums as num, index (num.key)}",
     		ctx
     	});
 
@@ -3683,7 +3695,7 @@ var app = (function () {
     	let each_1_lookup = new Map();
     	let each_value = /*nums*/ ctx[0];
     	validate_each_argument(each_value);
-    	const get_key = ctx => /*num*/ ctx[5];
+    	const get_key = ctx => /*num*/ ctx[5].key;
     	validate_each_keys(ctx, each_value, get_each_context$3, get_key);
 
     	for (let i = 0; i < each_value.length; i += 1) {
@@ -3701,7 +3713,7 @@ var app = (function () {
     			}
 
     			attr_dev(div, "class", "wrapper svelte-rc0agl");
-    			add_location(div, file$3, 55, 2, 1114);
+    			add_location(div, file$3, 55, 2, 1099);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -3746,7 +3758,7 @@ var app = (function () {
     function instance$5($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots("Selection", slots, []);
-    	let nums = Array.from({ length: 25 }).map((_, i) => 10 + Math.random() * 140);
+    	let { nums = [] } = $$props;
     	let _j;
 
     	onMount(() => {
@@ -3765,14 +3777,14 @@ var app = (function () {
 
     	function* selectionSortGenarator() {
     		for (let i = 0; i < nums.length; i++) {
-    			let min = nums[i];
+    			let min = nums[i].value;
     			let changeIdx = i;
 
     			for (let j = i + 1; j < nums.length; j++) {
     				yield setJ(j);
 
-    				if (min > nums[j]) {
-    					min = nums[j];
+    				if (min > nums[j].value) {
+    					min = nums[j].value;
     					changeIdx = j;
     				}
     			}
@@ -3788,16 +3800,20 @@ var app = (function () {
     	}
 
     	function swap(i, j) {
-    		let temp = nums[i];
-    		$$invalidate(0, nums[i] = nums[j], nums);
-    		$$invalidate(0, nums[j] = temp, nums);
+    		let temp = nums[i].value;
+    		$$invalidate(0, nums[i].value = nums[j].value, nums);
+    		$$invalidate(0, nums[j].value = temp, nums);
     	}
 
-    	const writable_props = [];
+    	const writable_props = ["nums"];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<Selection> was created with unknown prop '${key}'`);
     	});
+
+    	$$self.$$set = $$props => {
+    		if ("nums" in $$props) $$invalidate(0, nums = $$props.nums);
+    	};
 
     	$$self.$capture_state = () => ({
     		onMount,
@@ -3823,7 +3839,7 @@ var app = (function () {
     class Selection extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$5, create_fragment$5, safe_not_equal, {});
+    		init(this, options, instance$5, create_fragment$5, safe_not_equal, { nums: 0 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -3831,6 +3847,14 @@ var app = (function () {
     			options,
     			id: create_fragment$5.name
     		});
+    	}
+
+    	get nums() {
+    		throw new Error("<Selection>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set nums(value) {
+    		throw new Error("<Selection>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
 
@@ -3844,7 +3868,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (52:4) {#each nums as num, index (num)}
+    // (52:4) {#each nums as num, index (num.key)}
     function create_each_block$2(key_1, ctx) {
     	let div;
     	let div_style_value;
@@ -3857,12 +3881,12 @@ var app = (function () {
     			attr_dev(div, "class", "row svelte-rc0agl");
 
     			attr_dev(div, "style", div_style_value = `
-          width: ${/*num*/ ctx[5]}px;
+          width: ${/*num*/ ctx[5].value}px;
           height: 5px;
           background-color: ${/*index*/ ctx[7] === /*_j*/ ctx[1] ? "red" : "white"} ;
         `);
 
-    			add_location(div, file$2, 52, 6, 1079);
+    			add_location(div, file$2, 52, 6, 1066);
     			this.first = div;
     		},
     		m: function mount(target, anchor) {
@@ -3872,7 +3896,7 @@ var app = (function () {
     			ctx = new_ctx;
 
     			if (dirty & /*nums, _j*/ 3 && div_style_value !== (div_style_value = `
-          width: ${/*num*/ ctx[5]}px;
+          width: ${/*num*/ ctx[5].value}px;
           height: 5px;
           background-color: ${/*index*/ ctx[7] === /*_j*/ ctx[1] ? "red" : "white"} ;
         `)) {
@@ -3888,7 +3912,7 @@ var app = (function () {
     		block,
     		id: create_each_block$2.name,
     		type: "each",
-    		source: "(52:4) {#each nums as num, index (num)}",
+    		source: "(52:4) {#each nums as num, index (num.key)}",
     		ctx
     	});
 
@@ -3901,7 +3925,7 @@ var app = (function () {
     	let each_1_lookup = new Map();
     	let each_value = /*nums*/ ctx[0];
     	validate_each_argument(each_value);
-    	const get_key = ctx => /*num*/ ctx[5];
+    	const get_key = ctx => /*num*/ ctx[5].key;
     	validate_each_keys(ctx, each_value, get_each_context$2, get_key);
 
     	for (let i = 0; i < each_value.length; i += 1) {
@@ -3919,7 +3943,7 @@ var app = (function () {
     			}
 
     			attr_dev(div, "class", "wrapper svelte-rc0agl");
-    			add_location(div, file$2, 50, 2, 1014);
+    			add_location(div, file$2, 50, 2, 997);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -3964,7 +3988,7 @@ var app = (function () {
     function instance$4($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots("Bubble", slots, []);
-    	let nums = Array.from({ length: 25 }).map((_, i) => 10 + Math.random() * 140);
+    	let { nums = [] } = $$props;
     	let _j;
 
     	onMount(() => {
@@ -3983,10 +4007,10 @@ var app = (function () {
 
     	function* bubbleSortGenarator() {
     		for (let i = 0; i < nums.length; i++) {
-    			for (let j = nums.length; j > i; j--) {
+    			for (let j = nums.length - 1; j > i; j--) {
     				yield setJ(j);
 
-    				if (nums[j] < nums[j - 1]) {
+    				if (nums[j].value < nums[j - 1].value) {
     					swap(j, j - 1);
     				}
     			}
@@ -4000,16 +4024,20 @@ var app = (function () {
     	}
 
     	function swap(i, j) {
-    		let temp = nums[i];
-    		$$invalidate(0, nums[i] = nums[j], nums);
-    		$$invalidate(0, nums[j] = temp, nums);
+    		let temp = nums[i].value;
+    		$$invalidate(0, nums[i].value = nums[j].value, nums);
+    		$$invalidate(0, nums[j].value = temp, nums);
     	}
 
-    	const writable_props = [];
+    	const writable_props = ["nums"];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<Bubble> was created with unknown prop '${key}'`);
     	});
+
+    	$$self.$$set = $$props => {
+    		if ("nums" in $$props) $$invalidate(0, nums = $$props.nums);
+    	};
 
     	$$self.$capture_state = () => ({
     		onMount,
@@ -4035,7 +4063,7 @@ var app = (function () {
     class Bubble extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$4, create_fragment$4, safe_not_equal, {});
+    		init(this, options, instance$4, create_fragment$4, safe_not_equal, { nums: 0 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -4043,6 +4071,14 @@ var app = (function () {
     			options,
     			id: create_fragment$4.name
     		});
+    	}
+
+    	get nums() {
+    		throw new Error("<Bubble>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set nums(value) {
+    		throw new Error("<Bubble>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
 
@@ -4076,7 +4112,7 @@ var app = (function () {
 			: "white"};
         `);
 
-    			add_location(div, file$1, 70, 6, 1427);
+    			add_location(div, file$1, 70, 6, 1351);
     			this.first = div;
     		},
     		m: function mount(target, anchor) {
@@ -4135,7 +4171,7 @@ var app = (function () {
     			}
 
     			attr_dev(div, "class", "wrapper svelte-rc0agl");
-    			add_location(div, file$1, 68, 2, 1358);
+    			add_location(div, file$1, 68, 2, 1282);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -4187,7 +4223,7 @@ var app = (function () {
     function instance$3($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots("Quick", slots, []);
-    	let nums = Array.from({ length: 25 }).map((_, i) => ({ value: 10 + Math.random() * 140, key: i }));
+    	let { nums = [] } = $$props;
     	let _j;
     	let _i;
     	let _p;
@@ -4236,11 +4272,15 @@ var app = (function () {
     		return () => window.clearInterval(timer);
     	});
 
-    	const writable_props = [];
+    	const writable_props = ["nums"];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<Quick> was created with unknown prop '${key}'`);
     	});
+
+    	$$self.$$set = $$props => {
+    		if ("nums" in $$props) $$invalidate(0, nums = $$props.nums);
+    	};
 
     	$$self.$capture_state = () => ({
     		onMount,
@@ -4269,7 +4309,7 @@ var app = (function () {
     class Quick extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$3, create_fragment$3, safe_not_equal, {});
+    		init(this, options, instance$3, create_fragment$3, safe_not_equal, { nums: 0 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -4277,6 +4317,14 @@ var app = (function () {
     			options,
     			id: create_fragment$3.name
     		});
+    	}
+
+    	get nums() {
+    		throw new Error("<Quick>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set nums(value) {
+    		throw new Error("<Quick>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
 
@@ -4290,7 +4338,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (71:2) {#each nums as num, index (num.key)}
+    // (70:2) {#each nums as num, index (num.key)}
     function create_each_block(key_1, ctx) {
     	let div;
     	let div_style_value;
@@ -4311,7 +4359,7 @@ var app = (function () {
 			: "white"};
       `);
 
-    			add_location(div, file, 71, 4, 1440);
+    			add_location(div, file, 70, 4, 1361);
     			this.first = div;
     		},
     		m: function mount(target, anchor) {
@@ -4340,7 +4388,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(71:2) {#each nums as num, index (num.key)}",
+    		source: "(70:2) {#each nums as num, index (num.key)}",
     		ctx
     	});
 
@@ -4371,7 +4419,7 @@ var app = (function () {
     			}
 
     			attr_dev(div, "class", "wrapper svelte-mko7ul");
-    			add_location(div, file, 69, 0, 1375);
+    			add_location(div, file, 68, 0, 1296);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -4416,7 +4464,7 @@ var app = (function () {
     function instance$2($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots("Shell", slots, []);
-    	let nums = Array.from({ length: 25 }).map((_, i) => ({ value: 10 + Math.random() * 140, key: i }));
+    	let { nums = [] } = $$props;
     	let _j;
     	let _group = [];
 
@@ -4481,11 +4529,15 @@ var app = (function () {
     		};
     	});
 
-    	const writable_props = [];
+    	const writable_props = ["nums"];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<Shell> was created with unknown prop '${key}'`);
     	});
+
+    	$$self.$$set = $$props => {
+    		if ("nums" in $$props) $$invalidate(0, nums = $$props.nums);
+    	};
 
     	$$self.$capture_state = () => ({
     		onMount,
@@ -4513,7 +4565,7 @@ var app = (function () {
     class Shell extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$2, create_fragment$2, safe_not_equal, {});
+    		init(this, options, instance$2, create_fragment$2, safe_not_equal, { nums: 0 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -4521,6 +4573,14 @@ var app = (function () {
     			options,
     			id: create_fragment$2.name
     		});
+    	}
+
+    	get nums() {
+    		throw new Error("<Shell>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set nums(value) {
+    		throw new Error("<Shell>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
 
@@ -4538,17 +4598,37 @@ var app = (function () {
     	let t4;
     	let shell;
     	let current;
-    	insertion = new Insertion({ $$inline: true });
-    	selection = new Selection({ $$inline: true });
-    	bubble_1 = new Bubble({ $$inline: true });
-    	quick = new Quick({ $$inline: true });
-    	shell = new Shell({ $$inline: true });
+
+    	insertion = new Insertion({
+    			props: { nums: getNums(/*nums*/ ctx[0]) },
+    			$$inline: true
+    		});
+
+    	selection = new Selection({
+    			props: { nums: getNums(/*nums*/ ctx[0]) },
+    			$$inline: true
+    		});
+
+    	bubble_1 = new Bubble({
+    			props: { nums: getNums(/*nums*/ ctx[0]) },
+    			$$inline: true
+    		});
+
+    	quick = new Quick({
+    			props: { nums: getNums(/*nums*/ ctx[0]) },
+    			$$inline: true
+    		});
+
+    	shell = new Shell({
+    			props: { nums: getNums(/*nums*/ ctx[0]) },
+    			$$inline: true
+    		});
 
     	const block = {
     		c: function create() {
     			t0 = text("Insertion\n");
     			create_component(insertion.$$.fragment);
-    			t1 = text("\nSection\n");
+    			t1 = text("\nSelection\n");
     			create_component(selection.$$.fragment);
     			t2 = text("\nBubble\n");
     			create_component(bubble_1.$$.fragment);
@@ -4616,9 +4696,14 @@ var app = (function () {
     	return block;
     }
 
+    function getNums(arr) {
+    	return JSON.parse(JSON.stringify(arr));
+    }
+
     function instance$1($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots("Sorting", slots, []);
+    	let nums = Array.from({ length: 25 }).map((_, i) => ({ value: 10 + Math.random() * 140, key: i }));
     	const writable_props = [];
 
     	Object.keys($$props).forEach(key => {
@@ -4630,10 +4715,20 @@ var app = (function () {
     		Selection,
     		Bubble,
     		Quick,
-    		Shell
+    		Shell,
+    		nums,
+    		getNums
     	});
 
-    	return [];
+    	$$self.$inject_state = $$props => {
+    		if ("nums" in $$props) $$invalidate(0, nums = $$props.nums);
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	return [nums];
     }
 
     class Sorting extends SvelteComponentDev {
