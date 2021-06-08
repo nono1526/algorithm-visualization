@@ -12,15 +12,38 @@ function getNums (arr) {
   return JSON.parse(JSON.stringify(arr))
 }
 </script>
-Insertion
-<Insertion nums={getNums(nums)}></Insertion>
-Selection
-<Selection nums={getNums(nums)}></Selection>
-Bubble
-<Bubble nums={getNums(nums)}></Bubble> 
-Quick
-<Quick nums={getNums(nums)}></Quick>
-Shell
-<Shell nums={getNums(nums)}></Shell>
-Merge
-<Merge nums={getNums(nums)}></Merge>
+<style>
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .col {
+    padding: 0 12px;
+  }
+</style>
+<div class="row">
+  <div class="col">
+    Insertion
+    <Insertion nums={getNums(nums)}></Insertion>
+  </div>
+  <div class="col">
+    Selection
+    <Selection nums={getNums(nums)}></Selection>
+  </div>
+  <div class="col">
+    Bubble
+  <Bubble nums={getNums(nums)}></Bubble> 
+  </div>
+  <div class="col">
+    Quick
+    <Quick nums={getNums(nums)}></Quick>
+  </div>
+  <div class="col">
+    Shell
+    <Shell nums={getNums(nums)}></Shell>
+  </div>
+  <div class="col">
+    Merge
+    <Merge nums={getNums(nums)}></Merge>
+  </div>
+</div>
