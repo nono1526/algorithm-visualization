@@ -5,6 +5,7 @@
 
   function * makeHeapSorting (nums) {
     const maxHeap = yield * buildMaxHeap(nums)
+
     for (let i = maxHeap.length - 1; i >= 2; i--) {
 
       swap(maxHeap, 1, i)
@@ -35,11 +36,11 @@
       nextIndex = leftChildIdx
       max = left
     } else {
-      nextIndex = rightChildIdx
       max = root
     }
-    if (rightChildIdx <= length && right > root) {
+    if (rightChildIdx <= length && right > max) {
       nextIndex = rightChildIdx
+      max = right
     }
     if (root !== max) {
       swap(heap, nextIndex, index)
@@ -61,7 +62,7 @@
       if (done) {
         window.clearInterval(timer)
       }
-    }, 1000)
+    }, 100)
     return () => {
       window.clearInterval(timer)
     }

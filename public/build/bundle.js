@@ -4846,7 +4846,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (84:2) {#each nums as num, index (index)}
+    // (85:2) {#each nums as num, index (index)}
     function create_each_block(key_1, ctx) {
     	let div;
     	let div_style_value;
@@ -4864,7 +4864,7 @@ var app = (function () {
         background-color: white ;
       `);
 
-    			add_location(div, file$1, 84, 4, 1983);
+    			add_location(div, file$1, 85, 4, 1968);
     			this.first = div;
     		},
     		m: function mount(target, anchor) {
@@ -4890,7 +4890,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(84:2) {#each nums as num, index (index)}",
+    		source: "(85:2) {#each nums as num, index (index)}",
     		ctx
     	});
 
@@ -4921,7 +4921,7 @@ var app = (function () {
     			}
 
     			attr_dev(div, "class", "wrapper svelte-1lml56d");
-    			add_location(div, file$1, 82, 0, 1920);
+    			add_location(div, file$1, 83, 0, 1905);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -4999,12 +4999,12 @@ var app = (function () {
     		nextIndex = leftChildIdx;
     		max = left;
     	} else {
-    		nextIndex = rightChildIdx;
     		max = root;
     	}
 
-    	if (rightChildIdx <= length && right > root) {
+    	if (rightChildIdx <= length && right > max) {
     		nextIndex = rightChildIdx;
+    		max = right;
     	}
 
     	if (root !== max) {
@@ -5037,7 +5037,7 @@ var app = (function () {
     					window.clearInterval(timer);
     				}
     			},
-    			1000
+    			100
     		);
 
     		return () => {
