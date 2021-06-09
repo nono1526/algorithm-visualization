@@ -4,12 +4,10 @@
   let _j = 0
 
   function * makeHeapSorting (nums) {
-    console.map(v => v.value))
     const maxHeap = yield * buildMaxHeap(nums)
     for (let i = maxHeap.length - 1; i >= 2; i--) {
 
       swap(maxHeap, 1, i)
-      console.log(i - 1)
       yield * maxHeapify(maxHeap, 1, i - 1)
     }
     return maxHeap.slice(1)
@@ -26,7 +24,6 @@
 
   function * maxHeapify (heap, index, length) {
     yield heap.slice(1)
-    console.log(index, length)
     const root = (heap[index] || {}).value
     const leftChildIdx = 2 * index // 4
     const rightChildIdx = 2 * index + 1 // 5  
@@ -64,7 +61,7 @@
       if (done) {
         window.clearInterval(timer)
       }
-    }, 100)
+    }, 1000)
     return () => {
       window.clearInterval(timer)
     }
