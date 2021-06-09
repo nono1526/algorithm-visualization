@@ -5,6 +5,8 @@ import Bubble from './components/Bubble.svelte'
 import Quick from './components/Quick.svelte'
 import Shell from './components/Shell.svelte'
 import Merge from './components/Merge.svelte'
+import Heap from './components/Heap.svelte'
+
 let nums = Array.from({ length: 25 })
   .map((_, i) => ({value: 10 + Math.random() * 140, key: i}))
 
@@ -45,5 +47,9 @@ function getNums (arr) {
   <div class="col">
     Merge
     <Merge nums={getNums(nums)}></Merge>
+  </div>
+  <div class="col">
+    Heap
+    <Heap nums={getNums(nums)}></Heap>
   </div>
 </div>
