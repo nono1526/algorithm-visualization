@@ -7,7 +7,6 @@
     const maxHeap = yield * buildMaxHeap(nums)
 
     for (let i = maxHeap.length - 1; i >= 2; i--) {
-
       swap(maxHeap, 1, i)
       yield * maxHeapify(maxHeap, 1, i - 1)
     }
@@ -24,6 +23,7 @@
   }
 
   function * maxHeapify (heap, index, length) {
+    _j = index
     yield heap.slice(1)
     const root = (heap[index] || {}).value
     const leftChildIdx = 2 * index // 4
@@ -61,6 +61,7 @@
       nums = value
       if (done) {
         window.clearInterval(timer)
+        _j = 0
       }
     }, 100)
     return () => {
@@ -88,7 +89,7 @@
       style={`
         width: ${num.value}px;
         height: 5px;
-        background-color: white ;
+        background-color: ${_j === index ? 'red' : 'white'} ;
       `}
     ></div>
   {/each}

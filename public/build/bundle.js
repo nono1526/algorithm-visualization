@@ -4841,12 +4841,12 @@ var app = (function () {
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[2] = list[i];
-    	child_ctx[4] = i;
+    	child_ctx[5] = list[i];
+    	child_ctx[7] = i;
     	return child_ctx;
     }
 
-    // (85:2) {#each nums as num, index (index)}
+    // (86:2) {#each nums as num, index (index)}
     function create_each_block(key_1, ctx) {
     	let div;
     	let div_style_value;
@@ -4859,12 +4859,12 @@ var app = (function () {
     			attr_dev(div, "class", "row svelte-1lml56d");
 
     			attr_dev(div, "style", div_style_value = `
-        width: ${/*num*/ ctx[2].value}px;
+        width: ${/*num*/ ctx[5].value}px;
         height: 5px;
-        background-color: white ;
+        background-color: ${/*_j*/ ctx[1] === /*index*/ ctx[7] ? "red" : "white"} ;
       `);
 
-    			add_location(div, file$1, 85, 4, 1968);
+    			add_location(div, file$1, 86, 4, 1997);
     			this.first = div;
     		},
     		m: function mount(target, anchor) {
@@ -4873,10 +4873,10 @@ var app = (function () {
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
 
-    			if (dirty & /*nums*/ 1 && div_style_value !== (div_style_value = `
-        width: ${/*num*/ ctx[2].value}px;
+    			if (dirty & /*nums, _j*/ 3 && div_style_value !== (div_style_value = `
+        width: ${/*num*/ ctx[5].value}px;
         height: 5px;
-        background-color: white ;
+        background-color: ${/*_j*/ ctx[1] === /*index*/ ctx[7] ? "red" : "white"} ;
       `)) {
     				attr_dev(div, "style", div_style_value);
     			}
@@ -4890,7 +4890,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(85:2) {#each nums as num, index (index)}",
+    		source: "(86:2) {#each nums as num, index (index)}",
     		ctx
     	});
 
@@ -4903,7 +4903,7 @@ var app = (function () {
     	let each_1_lookup = new Map();
     	let each_value = /*nums*/ ctx[0];
     	validate_each_argument(each_value);
-    	const get_key = ctx => /*index*/ ctx[4];
+    	const get_key = ctx => /*index*/ ctx[7];
     	validate_each_keys(ctx, each_value, get_each_context, get_key);
 
     	for (let i = 0; i < each_value.length; i += 1) {
@@ -4921,7 +4921,7 @@ var app = (function () {
     			}
 
     			attr_dev(div, "class", "wrapper svelte-1lml56d");
-    			add_location(div, file$1, 83, 0, 1905);
+    			add_location(div, file$1, 84, 0, 1934);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -4934,7 +4934,7 @@ var app = (function () {
     			}
     		},
     		p: function update(ctx, [dirty]) {
-    			if (dirty & /*nums*/ 1) {
+    			if (dirty & /*nums, _j*/ 3) {
     				each_value = /*nums*/ ctx[0];
     				validate_each_argument(each_value);
     				validate_each_keys(ctx, each_value, get_each_context, get_key);
@@ -4963,56 +4963,6 @@ var app = (function () {
     	return block;
     }
 
-    function* makeHeapSorting(nums) {
-    	const maxHeap = yield* buildMaxHeap(nums);
-
-    	for (let i = maxHeap.length - 1; i >= 2; i--) {
-    		swap(maxHeap, 1, i);
-    		yield* maxHeapify(maxHeap, 1, i - 1);
-    	}
-
-    	return maxHeap.slice(1);
-    }
-
-    function* buildMaxHeap(array) {
-    	// index 0 not use
-    	const heap = [undefined, ...array];
-
-    	for (let i = Math.floor(heap.length / 2); i > 0; i--) {
-    		yield* maxHeapify(heap, i, heap.length - 1);
-    	}
-
-    	return heap;
-    }
-
-    function* maxHeapify(heap, index, length) {
-    	yield heap.slice(1);
-    	const root = (heap[index] || {}).value;
-    	const leftChildIdx = 2 * index; // 4
-    	const rightChildIdx = 2 * index + 1; // 5  
-    	const left = (heap[leftChildIdx] || {}).value || -Infinity;
-    	const right = (heap[rightChildIdx] || {}).value || -Infinity;
-    	let nextIndex = null;
-    	let max = null;
-
-    	if (leftChildIdx <= length && left > root) {
-    		nextIndex = leftChildIdx;
-    		max = left;
-    	} else {
-    		max = root;
-    	}
-
-    	if (rightChildIdx <= length && right > max) {
-    		nextIndex = rightChildIdx;
-    		max = right;
-    	}
-
-    	if (root !== max) {
-    		swap(heap, nextIndex, index);
-    		yield* maxHeapify(heap, nextIndex, length);
-    	}
-    }
-
     function swap(array, i, j) {
     	const temp = array[i];
     	array[i] = array[j];
@@ -5025,6 +4975,57 @@ var app = (function () {
     	let { nums = [] } = $$props;
     	let _j = 0;
 
+    	function* makeHeapSorting(nums) {
+    		const maxHeap = yield* buildMaxHeap(nums);
+
+    		for (let i = maxHeap.length - 1; i >= 2; i--) {
+    			swap(maxHeap, 1, i);
+    			yield* maxHeapify(maxHeap, 1, i - 1);
+    		}
+
+    		return maxHeap.slice(1);
+    	}
+
+    	function* buildMaxHeap(array) {
+    		// index 0 not use
+    		const heap = [undefined, ...array];
+
+    		for (let i = Math.floor(heap.length / 2); i > 0; i--) {
+    			yield* maxHeapify(heap, i, heap.length - 1);
+    		}
+
+    		return heap;
+    	}
+
+    	function* maxHeapify(heap, index, length) {
+    		$$invalidate(1, _j = index);
+    		yield heap.slice(1);
+    		const root = (heap[index] || {}).value;
+    		const leftChildIdx = 2 * index; // 4
+    		const rightChildIdx = 2 * index + 1; // 5  
+    		const left = (heap[leftChildIdx] || {}).value || -Infinity;
+    		const right = (heap[rightChildIdx] || {}).value || -Infinity;
+    		let nextIndex = null;
+    		let max = null;
+
+    		if (leftChildIdx <= length && left > root) {
+    			nextIndex = leftChildIdx;
+    			max = left;
+    		} else {
+    			max = root;
+    		}
+
+    		if (rightChildIdx <= length && right > max) {
+    			nextIndex = rightChildIdx;
+    			max = right;
+    		}
+
+    		if (root !== max) {
+    			swap(heap, nextIndex, index);
+    			yield* maxHeapify(heap, nextIndex, length);
+    		}
+    	}
+
     	onMount(() => {
     		const generator = makeHeapSorting(nums);
 
@@ -5035,6 +5036,7 @@ var app = (function () {
 
     				if (done) {
     					window.clearInterval(timer);
+    					$$invalidate(1, _j = 0);
     				}
     			},
     			100
@@ -5067,14 +5069,14 @@ var app = (function () {
 
     	$$self.$inject_state = $$props => {
     		if ("nums" in $$props) $$invalidate(0, nums = $$props.nums);
-    		if ("_j" in $$props) _j = $$props._j;
+    		if ("_j" in $$props) $$invalidate(1, _j = $$props._j);
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [nums];
+    	return [nums, _j];
     }
 
     class Heap extends SvelteComponentDev {
